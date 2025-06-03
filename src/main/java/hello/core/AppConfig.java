@@ -1,5 +1,6 @@
 package hello.core;
 
+import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
@@ -14,13 +15,22 @@ import hello.core.order.OrderServiceImpl;
  */
 public class AppConfig {
 
+    // 구현 정의 -------------------------------------------------------------
+    //생성자 주입 : 생성자를 통해서 객체를 주입 한다.
     public MemberService memberService() {
-        //생성자 주입 : 생성자를 통해서 객체를 주입 한다.
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        return new MemberServiceImpl(memberRepository());
     }
 
     public OrderService orderService(){
-        //생성자 주입 : 생성자를 통해서 객체를 주입 한다.
-        return new OrderServiceImpl(new MemoryMemberRepository(), new FixDiscountPolicy());
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    // 역할 정의 ------------------------------------------------------------
+    private MemoryMemberRepository memberRepository() {
+        return new MemoryMemberRepository();
+    }
+
+    public DiscountPolicy discountPolicy(){
+        return new FixDiscountPolicy();
     }
 }
