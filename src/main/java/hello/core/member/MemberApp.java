@@ -1,16 +1,19 @@
 package hello.core.member;
 
-public class MemberApp {
+import hello.core.AppConfig;
 
+public class MemberApp
+{
     public static void main(String[] args) {
-        MemberService memberService = new MemberServiceImpl();
+        AppConfig config = new AppConfig();
+
+        MemberService memberService = config.memberService();
         Member member = new Member(1L, "memberA", Grade.VIP);
-
         memberService.join(member);
-        Member findMember = memberService.findMember(member.getId());
 
-        System.out.println("member.getName() = " + member.getName());
-        System.out.println("findMember.getName() = " + findMember.getName());
+        Member findMember = memberService.findMember(1L);
+
+        System.out.println("Member = = find member" + member.equals(findMember));
 
     }
 }
